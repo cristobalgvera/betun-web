@@ -61,6 +61,14 @@ module.exports = {
             ],
           },
         },
+        {
+          files: ['*.spec.ts'],
+          rules: {
+            '@typescript-eslint/no-unsafe-argument': 'off',
+            '@typescript-eslint/no-unsafe-assignment': 'off',
+            '@typescript-eslint/no-explicit-any': 'off',
+          },
+        },
       ],
     },
   ],
