@@ -63,6 +63,12 @@ module.exports = {
         },
         {
           files: ['*.spec.ts'],
+          extends: [
+            'plugin:jest/recommended',
+            'plugin:jest/style',
+            'plugin:jest-extended/all',
+            'plugin:jest-formatting/strict',
+          ],
           rules: {
             '@typescript-eslint/no-unsafe-argument': 'off',
             '@typescript-eslint/no-unsafe-assignment': 'off',

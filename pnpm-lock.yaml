@@ -100,6 +100,15 @@ devDependencies:
   eslint-plugin-functional:
     specifier: ^6.0.0
     version: 6.0.0(eslint@8.56.0)(typescript@5.2.2)
+  eslint-plugin-jest:
+    specifier: ^27.6.1
+    version: 27.6.1(@typescript-eslint/eslint-plugin@6.18.0)(eslint@8.56.0)(jest@29.7.0)(typescript@5.2.2)
+  eslint-plugin-jest-extended:
+    specifier: ^2.0.0
+    version: 2.0.0(eslint@8.56.0)(typescript@5.2.2)
+  eslint-plugin-jest-formatting:
+    specifier: ^3.1.0
+    version: 3.1.0(eslint@8.56.0)
   eslint-plugin-prettier:
     specifier: ^5.1.2
     version: 5.1.2(eslint-config-prettier@9.1.0)(eslint@8.56.0)(prettier@3.1.1)
@@ -118,6 +127,9 @@ devDependencies:
   jest-environment-jsdom:
     specifier: ^29.7.0
     version: 29.7.0
+  jest-extended:
+    specifier: ^4.0.2
+    version: 4.0.2(jest@29.7.0)
   jest-preset-angular:
     specifier: ^13.1.5
     version: 13.1.5(@angular-devkit/build-angular@17.0.9)(@angular/compiler-cli@17.0.8)(@angular/core@17.0.8)(@angular/platform-browser-dynamic@17.0.8)(@babel/core@7.23.7)(jest@29.7.0)(typescript@5.2.2)
@@ -6383,6 +6395,50 @@ packages:
       - supports-color
     dev: true
 
+  /eslint-plugin-jest-extended@2.0.0(eslint@8.56.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-nMhVVsVcG/+Q6FMshql35WBxwx8xlBhxKgAG08WP3BYWfXrp28oxLpJVu9JSbMpfmfKGVrHwMYJGfPLRKlGB8w==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      eslint: ^7.0.0 || ^8.0.0
+    dependencies:
+      '@typescript-eslint/utils': 5.62.0(eslint@8.56.0)(typescript@5.2.2)
+      eslint: 8.56.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+    dev: true
+
+  /eslint-plugin-jest-formatting@3.1.0(eslint@8.56.0):
+    resolution: {integrity: sha512-XyysraZ1JSgGbLSDxjj5HzKKh0glgWf+7CkqxbTqb7zEhW7X2WHo5SBQ8cGhnszKN+2Lj3/oevBlHNbHezoc/A==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: '>=0.8.0'
+    dependencies:
+      eslint: 8.56.0
+    dev: true
+
+  /eslint-plugin-jest@27.6.1(@typescript-eslint/eslint-plugin@6.18.0)(eslint@8.56.0)(jest@29.7.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-WEYkyVXD9NlmFBKvrkmzrC+C9yZoz5pAml2hO19PlS3spJtoiwj4p2u8spd/7zx5IvRsZsCmsoImaAvBB9X93Q==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': ^5.0.0 || ^6.0.0
+      eslint: ^7.0.0 || ^8.0.0
+      jest: '*'
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
+      jest:
+        optional: true
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 6.18.0(@typescript-eslint/parser@6.18.0)(eslint@8.56.0)(typescript@5.2.2)
+      '@typescript-eslint/utils': 5.62.0(eslint@8.56.0)(typescript@5.2.2)
+      eslint: 8.56.0
+      jest: 29.7.0(@types/node@20.10.7)(ts-node@10.9.2)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+    dev: true
+
   /eslint-plugin-prettier@5.1.2(eslint-config-prettier@9.1.0)(eslint@8.56.0)(prettier@3.1.1):
     resolution: {integrity: sha512-dhlpWc9vOwohcWmClFcA+HjlvUpuyynYs0Rf+L/P6/0iQE6vlHW9l5bkfzN62/Stm9fbq8ku46qzde76T1xlSg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -7891,6 +7947,20 @@ packages:
       '@types/node': 20.10.7
       jest-mock: 29.7.0
       jest-util: 29.7.0
+    dev: true
+
+  /jest-extended@4.0.2(jest@29.7.0):
+    resolution: {integrity: sha512-FH7aaPgtGYHc9mRjriS0ZEHYM5/W69tLrFTIdzm+yJgeoCmmrSB/luSfMSqWP9O29QWHPEmJ4qmU6EwsZideog==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      jest: '>=27.2.5'
+    peerDependenciesMeta:
+      jest:
+        optional: true
+    dependencies:
+      jest: 29.7.0(@types/node@20.10.7)(ts-node@10.9.2)
+      jest-diff: 29.7.0
+      jest-get-type: 29.6.3
     dev: true
 
   /jest-get-type@29.6.3:

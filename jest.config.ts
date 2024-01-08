@@ -4,7 +4,7 @@ import { compilerOptions } from './tsconfig.json';
 
 const config: Config = {
   preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts', 'jest-extended/all'],
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   prettierPath: null,
