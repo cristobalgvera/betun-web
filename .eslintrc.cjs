@@ -4,6 +4,14 @@ module.exports = {
   ignorePatterns: ['projects/**/*'],
   overrides: [
     {
+      files: ['*.html'],
+      extends: [
+        'plugin:@angular-eslint/template/recommended',
+        'plugin:@angular-eslint/template/accessibility',
+        'plugin:prettier/recommended',
+      ],
+    },
+    {
       files: ['*.ts'],
       parser: '@typescript-eslint/parser',
       parserOptions: { project: true },
@@ -25,14 +33,34 @@ module.exports = {
           'error',
           { type: 'element', prefix: 'app', style: 'kebab-case' },
         ],
+        '@typescript-eslint/member-ordering': [
+          'error',
+          { default: ['signature', 'field', 'constructor', 'method'] },
+        ],
+        '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       },
-    },
-    {
-      files: ['*.html'],
-      extends: [
-        'plugin:@angular-eslint/template/recommended',
-        'plugin:@angular-eslint/template/accessibility',
-        'plugin:prettier/recommended',
+      overrides: [
+        {
+          files: ['*.ts'],
+          excludedFiles: ['*.spec.ts'],
+          plugins: ['functional'],
+          extends: [
+            'plugin:functional/external-typescript-recommended',
+            'plugin:functional/no-mutations',
+            'plugin:functional/stylistic',
+          ],
+          rules: {
+            'functional/prefer-immutable-types': [
+              'error',
+              {
+                enforcement: 'None',
+                ignoreInferredTypes: true,
+                parameters: { enforcement: 'ReadonlyShallow' },
+                returnTypes: { enforcement: 'ReadonlyShallow' },
+              },
+            ],
+          },
+        },
       ],
     },
   ],
