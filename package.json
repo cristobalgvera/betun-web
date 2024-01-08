@@ -38,6 +38,8 @@
     "@angular-eslint/template-parser": "17.2.0",
     "@angular/cli": "^17.0.9",
     "@angular/compiler-cli": "^17.0.0",
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "6.18.0",
     "@typescript-eslint/parser": "6.18.0",
