@@ -3,7 +3,8 @@
   "version": 1,
   "cli": {
     "packageManager": "pnpm",
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": ["@angular-eslint/schematics"],
+    "analytics": false
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -33,7 +34,13 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
+            },
+            "allowedCommonJsDependencies": ["compression", "cache-manager"]
           },
           "configurations": {
             "production": {

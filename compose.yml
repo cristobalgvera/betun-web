@@ -1,0 +1,15 @@
+---
+services:
+  app:
+    build:
+      dockerfile: ./.devcontainer/Dockerfile
+    environment:
+      PORT: ${PORT}
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./:/app
+      - node_modules:/app/node_modules/
+
+volumes:
+  node_modules:
