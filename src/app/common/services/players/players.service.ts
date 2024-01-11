@@ -1,29 +1,33 @@
 import { Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, map } from 'rxjs';
 import { PlayerDto } from './dtos';
 
 @Injectable({ providedIn: 'root' })
 export class PlayersService {
-  private readonly _players$ = new BehaviorSubject<
+  private readonly players$ = new BehaviorSubject<
     ReadonlyMap<PlayerDto['id'], PlayerDto>
   >(new Map());
 
-  readonly players$ = this._players$.pipe(
-    map((players): readonly PlayerDto[] => Array.from(players.values())),
+  readonly players = toSignal(
+    this.players$.pipe(
+      map((players): readonly PlayerDto[] => Array.from(players.values())),
+    ),
+    { initialValue: [] },
   );
 
   add(player: PlayerDto): void {
-    this._players$.next(new Map(this._players$.value).set(player.id, player));
+    this.players$.next(new Map(this.players$.value).set(player.id, player));
   }
 
   remove(id: PlayerDto['id']): void {
-    const players = new Map(this._players$.value);
+    const players = new Map(this.players$.value);
     players.delete(id);
 
-    this._players$.next(players);
+    this.players$.next(players);
   }
 
   clear(): void {
-    this._players$.next(new Map());
+    this.players$.next(new Map());
   }
 }
