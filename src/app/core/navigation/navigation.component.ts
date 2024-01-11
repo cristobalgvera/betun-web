@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NavigationDto } from './dtos';
 
@@ -6,6 +6,7 @@ import { NavigationDto } from './dtos';
   selector: 'app-navigation',
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './navigation.component.html',
   styles: `.active { font-weight: bold; }`,
 })
