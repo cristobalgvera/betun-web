@@ -1,0 +1,11 @@
+<div class="bg-red-300">
+  @for (player of players; track player.name) {
+    <p
+      (keypress.enter)="onRemovePlayer(player)"
+      (click)="onRemovePlayer(player)"
+      tabindex="0"
+    >
+      {{ player.name }}
+    </p>
+  }
+</div>
