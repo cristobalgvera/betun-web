@@ -1,15 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterOutlet } from '@angular/router';
+import { NavigationComponent } from '@core/navigation';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatSlideToggleModule, MatDividerModule],
+  imports: [CommonModule, RouterOutlet, NavigationComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  protected readonly title = 'betun-web';
-}
+export class AppComponent {}

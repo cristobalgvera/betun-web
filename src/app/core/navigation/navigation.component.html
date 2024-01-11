@@ -1,0 +1,7 @@
+<div class="flex gap-3 bg-pink-600 text-white">
+  @for (item of navigationItems; track item.route) {
+    <a [routerLink]="item.route" routerLinkActive="active">
+      {{ item.label }}
+    </a>
+  }
+</div>
