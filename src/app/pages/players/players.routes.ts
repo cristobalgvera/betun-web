@@ -6,9 +6,4 @@ export const playersRoutes: Routes = [
     loadComponent: () =>
       import('./players.component').then((m) => m.PlayersComponent),
   },
-  {
-    path: 'add-players',
-    loadComponent: () =>
-      import('./features/add-players').then((m) => m.AddPlayersComponent),
-  },
 ];
