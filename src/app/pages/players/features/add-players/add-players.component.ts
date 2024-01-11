@@ -1,5 +1,11 @@
-import { Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { PlayersService } from '@common/services';
+import { AddPlayerFormComponent } from './features/add-player-form';
 import {
   CurrentPlayerDto,
   CurrentPlayersComponent,
@@ -8,7 +14,8 @@ import {
 @Component({
   selector: 'app-add-players',
   standalone: true,
-  imports: [CurrentPlayersComponent],
+  imports: [CurrentPlayersComponent, AddPlayerFormComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-players.component.html',
 })
 export class AddPlayersComponent {
@@ -17,16 +24,6 @@ export class AddPlayersComponent {
   protected readonly currentPlayers = computed<readonly CurrentPlayerDto[]>(
     () => this.playersService.players().map((player) => ({ name: player.id })),
   );
-
-  constructor() {
-    this.addPlayer('Player 1');
-    this.addPlayer('Player 2');
-    this.addPlayer('Player 3');
-  }
-
-  protected addPlayer(name: string) {
-    this.playersService.add({ id: name });
-  }
 
   protected removePlayer(name: string) {
     this.playersService.remove(name);

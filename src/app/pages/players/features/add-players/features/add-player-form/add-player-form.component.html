@@ -1,0 +1,27 @@
+<div class="grid place-items-center">
+  <form
+    [formGroup]="addPlayerForm"
+    (keyup.enter)="addPlayer()"
+    tabindex="0"
+    class="grid w-64 place-items-center gap-4 p-4"
+  >
+    <mat-form-field appearance="outline" hideRequiredMarker class="w-full">
+      <mat-label>Participante</mat-label>
+      <input matInput [formControl]="addPlayerForm.controls.name" />
+      <button
+        ngSkipHydration
+        matSuffix
+        mat-icon-button
+        color="primary"
+        (click)="addPlayer()"
+      >
+        <mat-icon>person_add</mat-icon>
+      </button>
+      @if (addPlayerForm.controls.name.invalid) {
+        <mat-error>
+          {{ getErrorMessage(addPlayerForm.controls.name) }}
+        </mat-error>
+      }
+    </mat-form-field>
+  </form>
+</div>

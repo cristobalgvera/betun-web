@@ -42,6 +42,7 @@ module.exports = {
           'error',
           { allowWithDecorator: true },
         ],
+        '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
       },
       overrides: [
         {
