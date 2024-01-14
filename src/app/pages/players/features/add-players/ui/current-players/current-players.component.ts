@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { PlayerDto } from '@common/services/players/dtos';
 import { CurrentPlayerDto } from './dtos';
 
 @Component({
@@ -19,9 +20,9 @@ import { CurrentPlayerDto } from './dtos';
 export class CurrentPlayersComponent {
   @Input({ required: true }) players!: readonly CurrentPlayerDto[];
 
-  @Output() removePlayer = new EventEmitter<CurrentPlayerDto['name']>();
+  @Output() removePlayer = new EventEmitter<PlayerDto['id']>();
 
-  onRemovePlayer(player: Pick<CurrentPlayerDto, 'name'>): void {
-    this.removePlayer.emit(player.name);
+  onRemovePlayer(playerId: PlayerDto['id']): void {
+    this.removePlayer.emit(playerId);
   }
 }

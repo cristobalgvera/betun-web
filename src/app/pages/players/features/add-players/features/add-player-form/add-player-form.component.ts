@@ -40,7 +40,7 @@ export class AddPlayerFormComponent {
     const name = this.normalizeName(this.addPlayerForm.controls.name.value);
     if (!name) return;
 
-    this.playersService.add({ id: name });
+    this.playersService.add({ name });
     this.addPlayerForm.reset();
   }
 
@@ -51,6 +51,6 @@ export class AddPlayerFormComponent {
   }
 
   private normalizeName(name: string) {
-    return name.trim().toLowerCase();
+    return name.trim();
   }
 }

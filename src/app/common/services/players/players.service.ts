@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Subject, map } from 'rxjs';
 import { PlayerDto } from './dtos';
 import { GenerateAvatarService } from './generate-avatar.service';
 
@@ -11,6 +11,7 @@ export class PlayersService {
   private readonly players$ = new BehaviorSubject<
     ReadonlyMap<PlayerDto['id'], PlayerDto>
   >(new Map());
+  private readonly _playerExists$ = new Subject<Pick<PlayerDto, 'name'>>();
 
   readonly players = toSignal(
     this.players$.pipe(
@@ -20,11 +21,20 @@ export class PlayersService {
     ),
     { initialValue: [] },
   );
+  readonly playerExists$ = this._playerExists$.asObservable();
 
-  add(player: Pick<PlayerDto, 'id'>): void {
+  add(playerName: Pick<PlayerDto, 'name'>): void {
+    const id = playerName.name.toLocaleLowerCase();
+
+    if (this.players$.value.has(id)) {
+      this._playerExists$.next(playerName);
+      return;
+    }
+
     this.players$.next(
-      new Map(this.players$.value).set(player.id, {
-        ...player,
+      new Map(this.players$.value).set(id, {
+        ...playerName,
+        id,
         avatarUri: this.generateAvatarService.generateAvatarUri(),
       }),
     );

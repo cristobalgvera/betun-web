@@ -5,8 +5,8 @@
       <span class="col-span-2 text-xl capitalize">{{ player.name }}</span>
       <button
         mat-mini-fab
-        (keypress.enter)="onRemovePlayer(player)"
-        (click)="onRemovePlayer(player)"
+        (keypress.enter)="onRemovePlayer(player.id)"
+        (click)="onRemovePlayer(player.id)"
         tabindex="0"
         class="mx-auto"
         color="primary"
