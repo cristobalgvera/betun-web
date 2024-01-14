@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, Subject, map } from 'rxjs';
+import { BehaviorSubject, Subject, map, pairwise } from 'rxjs';
 import { PlayerDto } from './dtos';
 import { GenerateAvatarService } from './generate-avatar.service';
 
@@ -22,6 +22,10 @@ export class PlayersService {
     { initialValue: [] },
   );
   readonly playerExists$ = this._playerExists$.asObservable();
+  readonly playerAdded$ = this.players$.pipe(
+    pairwise(),
+    map(([prev, curr]) => prev.size < curr.size),
+  );
 
   add(playerName: Pick<PlayerDto, 'name'>): void {
     const id = playerName.name.toLocaleLowerCase();

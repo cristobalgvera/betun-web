@@ -3,7 +3,7 @@
   <div class="mb-6 w-full">
     <mat-divider />
   </div>
-  <div class="m-auto w-3/4 max-w-96 overflow-y-scroll">
+  <div #currentPlayersContainer class="m-auto w-3/4 max-w-96 overflow-y-scroll">
     <app-current-players
       [players]="currentPlayers()"
       (removePlayer)="removePlayer($event)"

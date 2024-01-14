@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  ViewChild,
   computed,
   inject,
 } from '@angular/core';
@@ -9,7 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlayersService } from '@common/services/players';
 import { PlayerDto } from '@common/services/players/dtos';
-import { tap } from 'rxjs';
+import { filter, tap } from 'rxjs';
 import { AddPlayerFormComponent } from './features/add-player-form';
 import {
   CurrentPlayerDto,
@@ -31,6 +33,9 @@ export class AddPlayersComponent {
     this.playersService.players,
   );
 
+  @ViewChild('currentPlayersContainer', { static: true })
+  private readonly currentPlayersContainer!: ElementRef<HTMLDivElement>;
+
   constructor() {
     this.playersService.playerExists$
       .pipe(
@@ -39,6 +44,19 @@ export class AddPlayersComponent {
           this.snackBarService.open(`${name} ya está en la lista`, 'OK', {
             verticalPosition: 'top',
             duration: 2_000,
+          });
+        }),
+      )
+      .subscribe();
+
+    this.playersService.playerAdded$
+      .pipe(
+        takeUntilDestroyed(),
+        filter((added) => added),
+        tap(() => {
+          this.currentPlayersContainer.nativeElement.scrollTo({
+            top: 0,
+            behavior: 'smooth',
           });
         }),
       )
