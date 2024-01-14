@@ -23,7 +23,11 @@ export class AddPlayersComponent {
   private readonly playersService = inject(PlayersService);
 
   protected readonly currentPlayers = computed<readonly CurrentPlayerDto[]>(
-    () => this.playersService.players().map((player) => ({ name: player.id })),
+    () =>
+      this.playersService.players().map<CurrentPlayerDto>((player) => ({
+        name: player.id,
+        avatarUri: player.avatarUri,
+      })),
   );
 
   protected removePlayer(name: string) {

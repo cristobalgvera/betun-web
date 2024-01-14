@@ -1,7 +1,8 @@
 <div class="grid gap-6">
   @for (player of players; track player.name) {
-    <div class="grid grid-cols-4 items-center gap-x-2">
-      <span class="col-span-3 text-xl capitalize">{{ player.name }}</span>
+    <div class="grid grid-cols-4 items-center gap-x-4">
+      <img [src]="player.avatarUri" alt="Avatar" class="w-3/4" />
+      <span class="col-span-2 text-xl capitalize">{{ player.name }}</span>
       <button
         mat-mini-fab
         (keypress.enter)="onRemovePlayer(player)"
