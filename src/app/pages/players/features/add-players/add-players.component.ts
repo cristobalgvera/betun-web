@@ -5,7 +5,7 @@ import {
   inject,
 } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
-import { PlayersService } from '@common/services';
+import { PlayersService } from '@common/services/players';
 import { AddPlayerFormComponent } from './features/add-player-form';
 import {
   CurrentPlayerDto,
