@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, map } from 'rxjs';
 import { PlayerDto } from './dtos';
+import { GenerateAvatarService } from './generate-avatar.service';
 
 @Injectable({ providedIn: 'root' })
 export class PlayersService {
+  private readonly generateAvatarService = inject(GenerateAvatarService);
+
   private readonly players$ = new BehaviorSubject<
     ReadonlyMap<PlayerDto['id'], PlayerDto>
   >(new Map());
@@ -16,8 +19,13 @@ export class PlayersService {
     { initialValue: [] },
   );
 
-  add(player: PlayerDto): void {
-    this.players$.next(new Map(this.players$.value).set(player.id, player));
+  add(player: Pick<PlayerDto, 'id'>): void {
+    this.players$.next(
+      new Map(this.players$.value).set(player.id, {
+        ...player,
+        avatarUri: this.generateAvatarService.generateAvatarUri(),
+      }),
+    );
   }
 
   remove(id: PlayerDto['id']): void {
