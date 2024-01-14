@@ -41,6 +41,11 @@
             "ssr": {
               "entry": "server.ts"
             },
+            "externalDependencies": [
+              "@resvg/resvg-js",
+              "sharp",
+              "exiftool-vendored"
+            ],
             "allowedCommonJsDependencies": ["compression", "cache-manager"]
           },
           "configurations": {
