@@ -4,6 +4,7 @@ import {
   computed,
   inject,
 } from '@angular/core';
+import { MatDividerModule } from '@angular/material/divider';
 import { PlayersService } from '@common/services';
 import { AddPlayerFormComponent } from './features/add-player-form';
 import {
@@ -14,7 +15,7 @@ import {
 @Component({
   selector: 'app-add-players',
   standalone: true,
-  imports: [CurrentPlayersComponent, AddPlayerFormComponent],
+  imports: [CurrentPlayersComponent, AddPlayerFormComponent, MatDividerModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-players.component.html',
 })

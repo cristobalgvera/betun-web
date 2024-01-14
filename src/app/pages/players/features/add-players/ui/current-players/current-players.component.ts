@@ -5,12 +5,14 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { CurrentPlayerDto } from './dtos';
 
 @Component({
   selector: 'app-current-players',
   standalone: true,
-  imports: [],
+  imports: [MatButtonModule, MatIconModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './current-players.component.html',
 })
