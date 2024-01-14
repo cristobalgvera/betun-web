@@ -4,4 +4,5 @@ module.exports = {
   corePlugins: {
     preflight: false, // To integrate properly with Angular Material
   },
+  plugins: [require('@tailwindcss/container-queries')],
 };
