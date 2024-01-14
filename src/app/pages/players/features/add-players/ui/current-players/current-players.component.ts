@@ -21,8 +21,13 @@ export class CurrentPlayersComponent {
   @Input({ required: true }) players!: readonly CurrentPlayerDto[];
 
   @Output() removePlayer = new EventEmitter<PlayerDto['id']>();
+  @Output() regenerateAvatar = new EventEmitter<PlayerDto['id']>();
 
   onRemovePlayer(playerId: PlayerDto['id']): void {
     this.removePlayer.emit(playerId);
+  }
+
+  onRegenerateAvatar(playerId: PlayerDto['id']): void {
+    this.regenerateAvatar.emit(playerId);
   }
 }

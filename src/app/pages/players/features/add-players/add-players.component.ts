@@ -48,4 +48,8 @@ export class AddPlayersComponent {
   protected removePlayer(id: PlayerDto['id']) {
     this.playersService.remove(id);
   }
+
+  protected regenerateAvatar(id: PlayerDto['id']) {
+    this.playersService.regenerateAvatar(id);
+  }
 }

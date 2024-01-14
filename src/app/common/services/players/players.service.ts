@@ -50,4 +50,17 @@ export class PlayersService {
   clear(): void {
     this.players$.next(new Map());
   }
+
+  regenerateAvatar(id: PlayerDto['id']): void {
+    const currentPlayer = this.players$.value.get(id);
+
+    if (!currentPlayer) return;
+
+    this.players$.next(
+      new Map(this.players$.value).set(id, {
+        ...currentPlayer,
+        avatarUri: this.generateAvatarService.generateAvatarUri(),
+      }),
+    );
+  }
 }
