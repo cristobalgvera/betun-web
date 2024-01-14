@@ -14,7 +14,9 @@ export class PlayersService {
 
   readonly players = toSignal(
     this.players$.pipe(
-      map((players): readonly PlayerDto[] => Array.from(players.values())),
+      map((players): readonly PlayerDto[] =>
+        Array.from(players.values()).reverse(),
+      ),
     ),
     { initialValue: [] },
   );
