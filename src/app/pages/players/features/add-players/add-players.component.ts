@@ -11,7 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlayersService } from '@common/services/players';
 import { PlayerDto } from '@common/services/players/dtos';
-import { filter, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { AddPlayerFormComponent } from './features/add-player-form';
 import {
   CurrentPlayerDto,
@@ -52,7 +52,6 @@ export class AddPlayersComponent {
     this.playersService.playerAdded$
       .pipe(
         takeUntilDestroyed(),
-        filter((added) => added),
         tap(() => {
           this.currentPlayersContainer.nativeElement.scrollTo({
             top: 0,

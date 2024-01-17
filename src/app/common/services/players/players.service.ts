@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, Subject, map, pairwise } from 'rxjs';
+import { BehaviorSubject, Subject, filter, map, pairwise } from 'rxjs';
 import { PlayerDto } from './dtos';
 import { GenerateAvatarService } from './generate-avatar.service';
 
@@ -25,6 +25,7 @@ export class PlayersService {
   readonly playerAdded$ = this.players$.pipe(
     pairwise(),
     map(([prev, curr]) => prev.size < curr.size),
+    filter(Boolean),
   );
 
   add(playerName: Pick<PlayerDto, 'name'>): void {
