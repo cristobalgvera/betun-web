@@ -1,0 +1,14 @@
+<div class="grid place-content-center gap-y-2">
+  <button
+    mat-raised-button
+    color="primary"
+    routerLink="games"
+    [disabled]="!totalPlayers()"
+  >
+    <span class="px-4 text-lg">Elegir juego</span>
+  </button>
+
+  <span class="text-center text-sm text-gray-400">
+    Jugadores listos: {{ totalPlayers() }}
+  </span>
+</div>

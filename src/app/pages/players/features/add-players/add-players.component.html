@@ -1,13 +1,14 @@
-<div class="flex max-h-[67vh] flex-col items-center gap-y-2 overflow-hidden">
+<div class="flex flex-col items-center gap-y-2">
   <app-add-player-form />
-  <div class="mb-6 w-full">
-    <mat-divider />
-  </div>
-  <div #currentPlayersContainer class="m-auto w-3/4 max-w-96 overflow-y-scroll">
+  <div
+    #currentPlayersContainer
+    class="m-auto h-96 w-3/4 max-w-96 overflow-y-scroll px-3 py-2"
+  >
     <app-current-players
       [players]="currentPlayers()"
       (removePlayer)="removePlayer($event)"
       (regenerateAvatar)="regenerateAvatar($event)"
     />
   </div>
+  <app-ready-to-play />
 </div>

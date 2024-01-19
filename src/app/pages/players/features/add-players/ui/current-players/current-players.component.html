@@ -1,5 +1,5 @@
 <div class="grid gap-6">
-  @for (player of players; track player.name) {
+  @for (player of players; track player.id) {
     <div class="grid grid-cols-4 items-center gap-x-4">
       <img
         (keypress.enter)="onRemovePlayer(player.id)"
@@ -22,6 +22,6 @@
       </button>
     </div>
   } @empty {
-    <span class="mx-auto text-2xl">Añade participantes</span>
+    <span class="mx-auto text-xl text-gray-500">Añade participantes</span>
   }
 </div>

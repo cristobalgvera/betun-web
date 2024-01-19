@@ -7,11 +7,11 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlayerDto, PlayersService } from '@pages/players/data-access/players';
 import { tap } from 'rxjs';
 import { AddPlayerFormComponent } from './features/add-player-form';
+import { ReadyToPlayComponent } from './features/ready-to-play';
 import {
   CurrentPlayerDto,
   CurrentPlayersComponent,
@@ -20,7 +20,11 @@ import {
 @Component({
   selector: 'app-add-players',
   standalone: true,
-  imports: [CurrentPlayersComponent, AddPlayerFormComponent, MatDividerModule],
+  imports: [
+    CurrentPlayersComponent,
+    ReadyToPlayComponent,
+    AddPlayerFormComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-players.component.html',
 })
