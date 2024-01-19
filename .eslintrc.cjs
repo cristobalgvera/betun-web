@@ -64,6 +64,7 @@ module.exports = {
                 returnTypes: { enforcement: 'ReadonlyShallow' },
               },
             ],
+            'functional/immutable-data': 'off',
           },
         },
         {
