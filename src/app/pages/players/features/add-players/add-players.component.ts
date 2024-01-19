@@ -9,8 +9,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PlayersService } from '@common/services/players';
-import { PlayerDto } from '@common/services/players/dtos';
+import { PlayerDto, PlayersService } from '@pages/players/data-access/players';
 import { tap } from 'rxjs';
 import { AddPlayerFormComponent } from './features/add-player-form';
 import {

@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { PlayerDto } from '@common/services/players/dtos';
+import { PlayerDto } from '@pages/players/data-access/players';
 import { CurrentPlayerDto } from './dtos';
 
 @Component({
