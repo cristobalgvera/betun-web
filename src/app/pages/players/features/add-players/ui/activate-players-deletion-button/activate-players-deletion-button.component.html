@@ -1,0 +1,9 @@
+<button
+  mat-fab
+  [disabled]="disabled"
+  [color]="playersDeletionActivated ? 'accent' : 'warn'"
+  class="flex w-20"
+  (click)="onTogglePlayerDeletion()"
+>
+  <mat-icon>{{ playersDeletionActivated ? 'close' : 'delete' }}</mat-icon>
+</button>
