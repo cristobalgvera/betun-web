@@ -1,27 +1,21 @@
-<div class="grid gap-6">
+<div class="grid grid-cols-3 gap-x-3 gap-y-6">
   @for (player of players; track player.id) {
-    <div class="grid grid-cols-4 items-center gap-x-4">
+    <div class="flex flex-col items-center gap-y-2">
       <img
-        (keypress.enter)="onRemovePlayer(player.id)"
+        (keypress.enter)="onRegenerateAvatar(player.id)"
         (click)="onRegenerateAvatar(player.id)"
         [src]="player.avatarUri"
         alt="Avatar"
         tabindex="0"
-        class="w-3/4"
+        class="rounded-full"
       />
-      <span class="col-span-2 text-xl capitalize">{{ player.name }}</span>
-      <button
-        mat-mini-fab
-        (keypress.enter)="onRemovePlayer(player.id)"
-        (click)="onRemovePlayer(player.id)"
-        tabindex="0"
-        class="mx-auto"
-        color="primary"
-      >
-        <mat-icon>remove</mat-icon>
-      </button>
+      <span class="col-span-2 max-w-full truncate text-xl capitalize">
+        {{ player.name }}
+      </span>
     </div>
   } @empty {
-    <span class="mx-auto text-xl text-gray-500">Añade participantes</span>
+    <span class="col-span-full mx-auto text-xl text-gray-500">
+      Añade participantes
+    </span>
   }
 </div>
