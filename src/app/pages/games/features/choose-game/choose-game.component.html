@@ -1,1 +1,17 @@
-<p>choose-game works!</p>
+<div class="mx-auto max-h-[70dvh] max-w-sm overflow-y-scroll">
+  <mat-grid-list cols="1" rowHeight="100px">
+    @for (game of games(); track game.id) {
+      <mat-grid-tile>
+        <button
+          mat-stroked-button
+          class="!h-16 w-full select-none"
+          (click)="chooseGame(game.id)"
+        >
+          <span class="text-xl">
+            {{ game.name }}
+          </span>
+        </button>
+      </mat-grid-tile>
+    }
+  </mat-grid-list>
+</div>
