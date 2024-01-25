@@ -4,6 +4,7 @@ import {
   toObservable,
   toSignal,
 } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router } from '@angular/router';
 import { PlayerDto, PlayersService } from '@pages/players/data-access/players';
 import {
   BehaviorSubject,
@@ -16,6 +17,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class ActivatePlayerDeletionService {
   private readonly playersService = inject(PlayersService);
+  private readonly router = inject(Router);
 
   readonly #playerDeletionActive$ = new BehaviorSubject(false);
   readonly #deletePlayer$ = new Subject<PlayerDto['id']>();
@@ -37,11 +39,15 @@ export class ActivatePlayerDeletionService {
         this.playersService.remove(id);
       });
 
-    toObservable(this.playersService.players)
-      .pipe(
-        takeUntilDestroyed(),
+    combineLatest([
+      toObservable(this.playersService.players).pipe(
         filter((players) => !players.length),
-      )
+      ),
+      this.router.events.pipe(
+        filter((event) => event instanceof NavigationEnd),
+      ),
+    ])
+      .pipe(takeUntilDestroyed())
       .subscribe(() => {
         this.#playerDeletionActive$.next(false);
       });
