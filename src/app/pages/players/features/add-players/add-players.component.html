@@ -1,11 +1,19 @@
 <div class="flex flex-col items-center gap-y-6">
-  <app-add-player-form />
+  <div class="flex max-w-[80%] gap-x-2">
+    <app-add-player-form class="flex-auto" />
+    <app-delete-player-button
+      [disabled]="!currentPlayers().length"
+      [playersDeletionActivated]="playerDeletionActive()"
+      (togglePlayerDeletion)="togglePlayerDeletion()"
+    />
+  </div>
   <div
     #currentPlayersContainer
     class="m-auto h-[55dvh] w-3/4 max-w-96 overflow-y-scroll px-3 py-2"
   >
     <app-current-players
       [players]="currentPlayers()"
+      [playerDeletionActive]="playerDeletionActive()"
       (removePlayer)="removePlayer($event)"
       (regenerateAvatar)="regenerateAvatar($event)"
     />

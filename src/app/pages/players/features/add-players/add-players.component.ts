@@ -10,8 +10,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlayerDto, PlayersService } from '@pages/players/data-access/players';
 import { tap } from 'rxjs';
+import { ActivatePlayerDeletionService } from './data-access/activate-player-deletion';
 import { AddPlayerFormComponent } from './features/add-player-form';
 import { ReadyToPlayComponent } from './features/ready-to-play';
+import { ActivatePlayersDeletionButtonComponent } from './ui/activate-players-deletion-button';
 import {
   CurrentPlayerDto,
   CurrentPlayersComponent,
@@ -24,17 +26,23 @@ import {
     CurrentPlayersComponent,
     ReadyToPlayComponent,
     AddPlayerFormComponent,
+    ActivatePlayersDeletionButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-players.component.html',
 })
 export class AddPlayersComponent {
   private readonly playersService = inject(PlayersService);
+  private readonly activatePlayersDeletionService = inject(
+    ActivatePlayerDeletionService,
+  );
   private readonly snackBarService = inject(MatSnackBar);
 
   protected readonly currentPlayers = computed<readonly CurrentPlayerDto[]>(
     this.playersService.players,
   );
+  protected readonly playerDeletionActive =
+    this.activatePlayersDeletionService.playerDeletionActive;
 
   @ViewChild('currentPlayersContainer', { static: true })
   private readonly currentPlayersContainer!: ElementRef<HTMLDivElement>;
@@ -65,8 +73,12 @@ export class AddPlayersComponent {
       .subscribe();
   }
 
+  protected togglePlayerDeletion() {
+    this.activatePlayersDeletionService.togglePlayerDeletion();
+  }
+
   protected removePlayer(id: PlayerDto['id']) {
-    this.playersService.remove(id);
+    this.activatePlayersDeletionService.deletePlayer(id);
   }
 
   protected regenerateAvatar(id: PlayerDto['id']) {

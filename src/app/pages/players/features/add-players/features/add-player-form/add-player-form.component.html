@@ -2,7 +2,7 @@
   [formGroup]="addPlayerForm"
   (keyup.enter)="addPlayer()"
   tabindex="0"
-  class="grid w-64 place-items-center gap-4 px-4"
+  class="grid place-items-center gap-4 px-4"
 >
   <mat-form-field appearance="outline" hideRequiredMarker class="w-full">
     <mat-label>Participante</mat-label>
@@ -12,6 +12,7 @@
       matSuffix
       mat-icon-button
       color="primary"
+      [disabled]="addPlayerForm.disabled"
       (click)="addPlayer()"
     >
       <mat-icon>person_add</mat-icon>

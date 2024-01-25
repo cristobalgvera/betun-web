@@ -1,13 +1,20 @@
 <div class="grid grid-cols-3 gap-x-3 gap-y-6">
   @for (player of players; track player.id) {
-    <div class="flex flex-col items-center gap-y-2">
+    <div
+      class="flex flex-col items-center gap-y-2"
+      tabindex="0"
+      (keypress.enter)="actionatePlayer(player.id)"
+      (click)="actionatePlayer(player.id)"
+      [ngClass]="{
+        'animate-wiggle animate-infinite animate-ease-in-out':
+          playerDeletionActive
+      }"
+    >
       <img
-        (keypress.enter)="onRegenerateAvatar(player.id)"
-        (click)="onRegenerateAvatar(player.id)"
-        [src]="player.avatarUri"
         alt="Avatar"
-        tabindex="0"
+        [src]="player.avatarUri"
         class="rounded-full"
+        [ngClass]="{ grayscale: playerDeletionActive }"
       />
       <span class="col-span-2 max-w-full truncate text-xl capitalize">
         {{ player.name }}

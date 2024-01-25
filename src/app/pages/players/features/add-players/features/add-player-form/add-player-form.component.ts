@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
@@ -10,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { PlayersService } from '@pages/players/data-access/players';
+import { ActivatePlayerDeletionService } from '../../data-access/activate-player-deletion';
 
 @Component({
   selector: 'app-add-player-form',
@@ -27,10 +29,22 @@ import { PlayersService } from '@pages/players/data-access/players';
 export class AddPlayerFormComponent {
   private readonly playersService = inject(PlayersService);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly activatePlayersDeletionService = inject(
+    ActivatePlayerDeletionService,
+  );
 
   protected readonly addPlayerForm = this.formBuilder.nonNullable.group({
     name: ['', Validators.pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ\d ]+$/)],
   });
+
+  constructor() {
+    toObservable(this.activatePlayersDeletionService.playerDeletionActive)
+      .pipe(takeUntilDestroyed())
+      .subscribe((playerDeletionActive) => {
+        if (playerDeletionActive) this.addPlayerForm.disable();
+        else this.addPlayerForm.enable();
+      });
+  }
 
   protected addPlayer() {
     this.addPlayerForm.markAllAsTouched();
