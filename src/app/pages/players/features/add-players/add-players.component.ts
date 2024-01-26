@@ -60,7 +60,7 @@ export class AddPlayersComponent {
       )
       .subscribe();
 
-    this.playersService.playerAdded$
+    this.playersService.playerWasAdded$
       .pipe(
         takeUntilDestroyed(),
         tap(() => {

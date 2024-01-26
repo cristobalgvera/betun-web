@@ -102,7 +102,7 @@ describe('PlayersService', () => {
     it('should notify the addition', waitForAsync(() => {
       let counter = 0;
 
-      underTest.playerAdded$.subscribe(() => {
+      underTest.playerWasAdded$.subscribe(() => {
         counter++;
       });
 
