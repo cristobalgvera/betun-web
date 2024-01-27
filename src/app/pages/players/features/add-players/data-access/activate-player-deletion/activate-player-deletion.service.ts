@@ -12,6 +12,7 @@ import {
   combineLatest,
   filter,
   shareReplay,
+  switchMap,
 } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -30,12 +31,13 @@ export class ActivatePlayerDeletionService {
   );
 
   constructor() {
-    combineLatest([this.#playerDeletionActive$, this.#deletePlayer$])
+    this.#playerDeletionActive$
       .pipe(
         takeUntilDestroyed(),
-        filter(([playerDeletionActive]) => playerDeletionActive),
+        filter(Boolean),
+        switchMap(() => this.#deletePlayer$),
       )
-      .subscribe(([, id]) => {
+      .subscribe((id) => {
         this.playersService.remove(id);
       });
 
