@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, Subject, filter, map, pairwise } from 'rxjs';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, Subject, filter, map, tap } from 'rxjs';
 import { PlayerDto } from './dtos';
 import { GenerateAvatarService } from './generate-avatar.service';
 
@@ -8,11 +8,20 @@ import { GenerateAvatarService } from './generate-avatar.service';
 export class PlayersService {
   private readonly generateAvatarService = inject(GenerateAvatarService);
 
-  readonly #playerExists$ = new Subject<Pick<PlayerDto, 'name'>>();
   readonly #players$ = new BehaviorSubject<
     ReadonlyMap<PlayerDto['id'], PlayerDto>
   >(new Map());
 
+  readonly #addPlayer$ = new Subject<PlayerDto>();
+  readonly #playerAdded$ = new Subject<PlayerDto>();
+  readonly #playerExists$ = new Subject<Pick<PlayerDto, 'name'>>();
+
+  readonly #removePlayer$ = new Subject<PlayerDto['id']>();
+  readonly #playerRemoved$ = new Subject<PlayerDto['id']>();
+
+  readonly playerExists$ = this.#playerExists$.asObservable();
+  readonly playerAdded$ = this.#playerAdded$.asObservable();
+  readonly playerRemoved$ = this.#playerRemoved$.asObservable();
   readonly players = toSignal(
     this.#players$.pipe(
       map((players): readonly PlayerDto[] =>
@@ -21,37 +30,57 @@ export class PlayersService {
     ),
     { initialValue: [] },
   );
-  readonly playerExists$ = this.#playerExists$.asObservable();
-  readonly playerWasAdded$ = this.#players$.pipe(
-    pairwise(),
-    map(([prev, curr]) => prev.size < curr.size),
-    filter(Boolean),
-  );
 
-  // TODO: Refactor to remove imperative code
-  add(playerName: Pick<PlayerDto, 'name'>): void {
-    const id = playerName.name.toLocaleLowerCase();
+  constructor() {
+    this.#addPlayer$
+      .pipe(
+        takeUntilDestroyed(),
+        filter(({ id }) => this.#players$.value.has(id)),
+      )
+      .subscribe((player) => {
+        this.#playerExists$.next(player);
+      });
 
-    if (this.#players$.value.has(id)) {
-      this.#playerExists$.next(playerName);
-      return;
-    }
+    this.#addPlayer$
+      .pipe(
+        takeUntilDestroyed(),
+        filter(({ id }) => !this.#players$.value.has(id)),
+        tap((player) => {
+          this.#playerAdded$.next(player);
+        }),
+      )
+      .subscribe((player) => {
+        this.#players$.next(
+          new Map(this.#players$.value).set(player.id, player),
+        );
+      });
 
-    this.#players$.next(
-      new Map(this.#players$.value).set(id, {
-        ...playerName,
-        id,
-        avatarUri: this.generateAvatarService.generateAvatarUri(),
-      }),
-    );
+    this.#removePlayer$
+      .pipe(
+        takeUntilDestroyed(),
+        filter((id) => this.#players$.value.has(id)),
+        tap((id) => {
+          this.#playerRemoved$.next(id);
+        }),
+      )
+      .subscribe((id) => {
+        const players = new Map(this.#players$.value);
+        players.delete(id);
+
+        this.#players$.next(players);
+      });
   }
 
-  // TODO: Refactor to remove imperative code
-  remove(id: PlayerDto['id']): void {
-    const players = new Map(this.#players$.value);
-    players.delete(id);
+  add(playerName: Pick<PlayerDto, 'name'>): void {
+    this.#addPlayer$.next({
+      name: playerName.name,
+      id: playerName.name.toLocaleLowerCase(),
+      avatarUri: this.generateAvatarService.generateAvatarUri(),
+    });
+  }
 
-    this.#players$.next(players);
+  remove(id: PlayerDto['id']): void {
+    this.#removePlayer$.next(id);
   }
 
   clear(): void {

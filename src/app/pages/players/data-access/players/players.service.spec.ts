@@ -45,11 +45,22 @@ describe('PlayersService', () => {
         .players()
         .find(({ name }) => name === playerName)?.id;
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       underTest.remove(playerId!);
 
       expect(underTest.players()).toBeEmpty();
     });
+
+    it('should notify the removal', waitForAsync(() => {
+      const expected = 'id';
+
+      underTest.playerRemoved$.subscribe((actual) => {
+        expect(actual).toEqual(expected);
+      });
+
+      underTest.add({ name: 'player' });
+
+      underTest.remove(expected);
+    }));
 
     describe('when the player id is not found', () => {
       it('should not remove any player', () => {
@@ -102,7 +113,7 @@ describe('PlayersService', () => {
     it('should notify the addition', waitForAsync(() => {
       let counter = 0;
 
-      underTest.playerWasAdded$.subscribe(() => {
+      underTest.playerAdded$.subscribe(() => {
         counter++;
       });
 
@@ -121,7 +132,6 @@ describe('PlayersService', () => {
         const name = faker.person.firstName();
         underTest.add({ name });
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         currentPlayer = underTest.players().at(0)!;
       });
 
@@ -157,7 +167,6 @@ describe('PlayersService', () => {
       const name = faker.person.firstName();
       underTest.add({ name });
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       currentPlayer = underTest.players().at(0)!;
     });
 

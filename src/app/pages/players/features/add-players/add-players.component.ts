@@ -9,7 +9,6 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlayerDto, PlayersService } from '@pages/players/data-access/players';
-import { tap } from 'rxjs';
 import { ActivatePlayerDeletionService } from './data-access/activate-player-deletion';
 import { AddPlayerFormComponent } from './features/add-player-form';
 import { ReadyToPlayComponent } from './features/ready-to-play';
@@ -49,28 +48,22 @@ export class AddPlayersComponent {
 
   constructor() {
     this.playersService.playerExists$
-      .pipe(
-        takeUntilDestroyed(),
-        tap(({ name }) => {
-          this.snackBarService.open(`${name} ya está en la lista`, 'OK', {
-            verticalPosition: 'top',
-            duration: 2_000,
-          });
-        }),
-      )
-      .subscribe();
+      .pipe(takeUntilDestroyed())
+      .subscribe(({ name }) => {
+        this.snackBarService.open(`${name} ya está en la lista`, 'OK', {
+          verticalPosition: 'top',
+          duration: 2_000,
+        });
+      });
 
-    this.playersService.playerWasAdded$
-      .pipe(
-        takeUntilDestroyed(),
-        tap(() => {
-          this.currentPlayersContainer.nativeElement.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-          });
-        }),
-      )
-      .subscribe();
+    this.playersService.playerAdded$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        this.currentPlayersContainer.nativeElement.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      });
   }
 
   protected togglePlayerDeletion() {
