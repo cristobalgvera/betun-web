@@ -1,13 +1,22 @@
 import { inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PlayerDto, PlayersService } from '@pages/players/data-access/players';
-import { ReplaySubject, Subject, map, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  ReplaySubject,
+  filter,
+  map,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 
 export abstract class CurrentPlayerService {
   protected readonly playersService = inject(PlayersService);
 
-  protected readonly _currentPlayer$ = new ReplaySubject<PlayerDto>(1);
-  protected readonly _nextPlayer$ = new Subject<void>();
+  protected readonly _currentPlayer$ = new ReplaySubject<PlayerDto | undefined>(
+    1,
+  );
+  protected readonly _nextPlayer$ = new BehaviorSubject<void>(void 0);
 
   protected _currentIndex = 0;
 
@@ -21,12 +30,30 @@ export abstract class CurrentPlayerService {
         tap((players) => {
           if (this._currentIndex >= players.length) this._currentIndex = 0;
         }),
+        map((players) => players.at(this._currentIndex++)),
       )
-      .subscribe((players) => {
-        this._currentPlayer$.next(players[this._currentIndex++]);
+      .subscribe((player) => {
+        this._currentPlayer$.next(player);
       });
 
-    this._nextPlayer$.next();
+    this.playersService.playerAdded$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        this._currentIndex++;
+      });
+
+    this.playersService.playerRemoved$
+      .pipe(
+        takeUntilDestroyed(),
+        withLatestFrom(this.currentPlayer$),
+        filter(([removedId, currentPlayer]) => removedId === currentPlayer?.id),
+        tap(() => {
+          this._currentIndex--;
+        }),
+      )
+      .subscribe(() => {
+        this.changeCurrentPlayer();
+      });
   }
 
   changeCurrentPlayer(): void {
