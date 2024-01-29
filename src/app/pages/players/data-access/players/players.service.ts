@@ -46,13 +46,13 @@ export class PlayersService {
         takeUntilDestroyed(),
         filter(({ id }) => !this.#players$.value.has(id)),
         tap((player) => {
-          this.#playerAdded$.next(player);
+          this.#players$.next(
+            new Map(this.#players$.value).set(player.id, player),
+          );
         }),
       )
       .subscribe((player) => {
-        this.#players$.next(
-          new Map(this.#players$.value).set(player.id, player),
-        );
+        this.#playerAdded$.next(player);
       });
 
     this.#removePlayer$
@@ -60,14 +60,14 @@ export class PlayersService {
         takeUntilDestroyed(),
         filter((id) => this.#players$.value.has(id)),
         tap((id) => {
-          this.#playerRemoved$.next(id);
+          const players = new Map(this.#players$.value);
+          players.delete(id);
+
+          this.#players$.next(players);
         }),
       )
       .subscribe((id) => {
-        const players = new Map(this.#players$.value);
-        players.delete(id);
-
-        this.#players$.next(players);
+        this.#playerRemoved$.next(id);
       });
   }
 
