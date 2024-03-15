@@ -2,4 +2,7 @@
   <div class="h-[65dvh] overflow-y-scroll px-3 py-2">
     <app-board-card [rankedPlayers]="rankedPlayers()" />
   </div>
+  <div class="flex justify-center">
+    <app-dice [face]="currentRoll()" (click)="rollDice()" />
+  </div>
 </div>
