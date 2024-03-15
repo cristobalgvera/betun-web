@@ -1,0 +1,12 @@
+<figure
+  class="h-64 w-64 overflow-hidden"
+  tabindex="1"
+  (keypress.enter)="changeImage()"
+  (click)="changeImage()"
+>
+  <img
+    alt="Betun logo"
+    src="{{ currentImage$ | async }}"
+    class="size-full object-scale-down"
+  />
+</figure>
