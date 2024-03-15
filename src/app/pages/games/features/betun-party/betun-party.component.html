@@ -1,6 +1,15 @@
-<div class="grid max-w-full gap-y-4">
+<div class="grid max-w-full gap-y-3">
+  <div class="px-3">
+    <span>
+      Turno de
+      <span class="font-semibold capitalize">{{ currentPlayer()?.name }}</span>
+    </span>
+  </div>
   <div class="h-[65dvh] overflow-y-scroll px-3 py-2">
-    <app-board-card [rankedPlayers]="rankedPlayers()" />
+    <app-board-card
+      [rankedPlayers]="rankedPlayers()"
+      [activePlayerId]="currentPlayer()?.id"
+    />
   </div>
   <div class="flex justify-center">
     <app-dice [face]="currentRoll()" (click)="rollDice()" />

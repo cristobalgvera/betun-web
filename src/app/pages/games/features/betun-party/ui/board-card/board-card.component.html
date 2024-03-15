@@ -1,10 +1,12 @@
 <div class="grid gap-y-4">
-  @for (player of rankedPlayers; track player.id) {
-    <mat-card>
+  @for (player of rankedPlayers(); track player.id) {
+    <mat-card [class.inactive]="player.id !== activePlayerId()">
       <mat-card-header>
         <mat-card-title-group>
           <mat-card-title class="capitalize">{{ player.name }}</mat-card-title>
-          <mat-card-subtitle>{{ player.score }}</mat-card-subtitle>
+          <mat-card-subtitle>
+            {{ player.score }} punto{{ player.score === 1 ? '' : 's' }}
+          </mat-card-subtitle>
           <img mat-card-sm-image alt="Avatar" [src]="player.avatarUri" />
         </mat-card-title-group>
       </mat-card-header>

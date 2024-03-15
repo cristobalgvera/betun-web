@@ -23,6 +23,9 @@ export class BetunPartyComponent {
   );
 
   protected readonly rankedPlayers = this.rankingService.rankedPlayers;
+  protected readonly currentPlayer = toSignal(
+    this.currentPlayerService.currentPlayer$.pipe(filter(Boolean)),
+  );
   protected readonly currentRoll = toSignal(this.diceRollerService.roll$, {
     initialValue: 6,
   });
